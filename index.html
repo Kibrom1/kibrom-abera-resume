@@ -264,40 +264,67 @@
             actionButtons.style.display = 'none';
             
             try {
-                const canvas = await html2canvas(document.querySelector('.resume-container'), {
-                    scale: 2,
+                // Wait a moment for any animations to complete
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                const resumeContainer = document.querySelector('.resume-container');
+                
+                // Ensure the container is fully visible
+                resumeContainer.style.position = 'relative';
+                resumeContainer.style.left = '0';
+                resumeContainer.style.top = '0';
+                
+                const canvas = await html2canvas(resumeContainer, {
+                    scale: 1.5,
                     useCORS: true,
                     allowTaint: true,
                     backgroundColor: '#ffffff',
-                    width: 816, // 8.5 inches at 96 DPI
-                    height: 1056 // 11 inches at 96 DPI
+                    scrollX: 0,
+                    scrollY: 0,
+                    x: 0,
+                    y: 0,
+                    foreignObjectRendering: true,
+                    logging: false,
+                    height: resumeContainer.offsetHeight,
+                    width: resumeContainer.offsetWidth
                 });
                 
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
                 
-                const imgWidth = 210; // A4 width in mm
-                const pageHeight = 297; // A4 height in mm
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                
+                const imgWidth = pdfWidth;
+                const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+                
                 let heightLeft = imgHeight;
                 let position = 0;
                 
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
+                // First page
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pdfHeight;
                 
+                // Additional pages
                 while (heightLeft >= 0) {
                     position = heightLeft - imgHeight;
                     pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pdfHeight;
                 }
                 
                 pdf.save('Kibrom_Abera_Resume.pdf');
+                
             } catch (error) {
                 console.error('Error generating PDF:', error);
-                alert('Error generating PDF. Please try using the Print as PDF option instead.');
+                // Fallback to print dialog
+                alert('Having trouble with direct download. Opening print dialog instead...');
+                window.print();
             } finally {
-                // Show the action buttons again
                 actionButtons.style.display = 'flex';
             }
         }
