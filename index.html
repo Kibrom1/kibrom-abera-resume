@@ -201,78 +201,53 @@
             }
         }
         
-        .action-buttons {
+        .action-button {
             position: fixed;
             top: 20px;
             right: 20px;
-            display: flex;
-            gap: 10px;
-            z-index: 1000;
-        }
-        
-        .print-button, .download-button {
             background: #2c5aa0;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
+            font-weight: 600;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
         
-        .print-button:hover, .download-button:hover {
+        .action-button:hover {
             background: #1e3d70;
         }
         
         @media print {
-            .action-buttons {
+            .action-button {
                 display: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="action-buttons">
-        <button class="print-button" onclick="window.print()">Print as PDF</button>
-        <button class="download-button" onclick="downloadPDF()">Download PDF</button>
-        <button class="download-button" onclick="downloadHTML()">Download HTML</button>
-    </div>
+    <button class="action-button" onclick="saveToPDF()">📄 Save as PDF</button>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <script>
-        function downloadHTML() {
-            const resumeContent = document.documentElement.outerHTML;
-            const blob = new Blob([resumeContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Kibrom_Abera_Resume.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        async function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            
-            // Hide the action buttons temporarily
-            const actionButtons = document.querySelector('.action-buttons');
-            actionButtons.style.display = 'none';
-            
+        async function saveToPDF() {
+            // First try the direct PDF generation
             try {
+                const { jsPDF } = window.jspdf;
+                
+                // Hide the action button temporarily
+                const actionButton = document.querySelector('.action-button');
+                actionButton.style.display = 'none';
+                
                 // Wait a moment for any animations to complete
                 await new Promise(resolve => setTimeout(resolve, 500));
                 
                 const resumeContainer = document.querySelector('.resume-container');
-                
-                // Ensure the container is fully visible
-                resumeContainer.style.position = 'relative';
-                resumeContainer.style.left = '0';
-                resumeContainer.style.top = '0';
                 
                 const canvas = await html2canvas(resumeContainer, {
                     scale: 1.5,
@@ -318,14 +293,12 @@
                 }
                 
                 pdf.save('Kibrom_Abera_Resume.pdf');
+                actionButton.style.display = 'block';
                 
             } catch (error) {
-                console.error('Error generating PDF:', error);
-                // Fallback to print dialog
-                alert('Having trouble with direct download. Opening print dialog instead...');
+                console.error('Direct PDF generation failed:', error);
+                // Fallback to browser print dialog
                 window.print();
-            } finally {
-                actionButtons.style.display = 'flex';
             }
         }
     </script>
