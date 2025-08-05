@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kibrom Abera - Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background: #fff;
+            font-size: 11px;
+        }
+        
+        .resume-container {
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            min-height: 11in;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2c5aa0;
+        }
+        
+        .name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c5aa0;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        
+        .contact-info {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.3;
+        }
+        
+        .contact-info a {
+            color: #2c5aa0;
+            text-decoration: none;
+        }
+        
+        .section {
+            margin-bottom: 18px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c5aa0;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #2c5aa0;
+            letter-spacing: 0.5px;
+        }
+        
+        .summary {
+            text-align: justify;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .skill-category {
+            margin-bottom: 8px;
+        }
+        
+        .skill-category-title {
+            font-weight: bold;
+            color: #2c5aa0;
+            margin-bottom: 3px;
+            font-size: 11px;
+        }
+        
+        .skill-list {
+            font-size: 10px;
+            line-height: 1.4;
+            color: #555;
+        }
+        
+        .experience-item {
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 5px;
+        }
+        
+        .company-role {
+            flex: 1;
+        }
+        
+        .company {
+            font-weight: bold;
+            color: #2c5aa0;
+            font-size: 12px;
+        }
+        
+        .role {
+            font-weight: bold;
+            color: #333;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        
+        .duration {
+            font-size: 10px;
+            color: #666;
+            font-weight: normal;
+            text-align: right;
+            white-space: nowrap;
+        }
+        
+        .achievements {
+            margin-top: 5px;
+        }
+        
+        .achievements ul {
+            margin-left: 15px;
+        }
+        
+        .achievements li {
+            margin-bottom: 3px;
+            font-size: 10px;
+            line-height: 1.4;
+            color: #444;
+        }
+        
+        .tech-env {
+            margin-top: 5px;
+            padding: 5px 8px;
+            background: #f8f9fa;
+            border-left: 3px solid #2c5aa0;
+            font-size: 9px;
+            color: #555;
+            line-height: 1.3;
+        }
+        
+        .tech-env strong {
+            color: #2c5aa0;
+        }
+        
+        .education-item {
+            margin-bottom: 8px;
+        }
+        
+        .degree {
+            font-weight: bold;
+            color: #333;
+            font-size: 11px;
+        }
+        
+        .institution {
+            color: #2c5aa0;
+            font-size: 11px;
+        }
+        
+        .year {
+            color: #666;
+            font-size: 10px;
+            float: right;
+        }
+        
+        @media print {
+            body {
+                font-size: 10px;
+            }
+            .resume-container {
+                box-shadow: none;
+                padding: 0.4in;
+            }
+            .section {
+                margin-bottom: 15px;
+            }
+            .experience-item {
+                margin-bottom: 12px;
+            }
+        }
+        
+        .action-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .print-button, .download-button {
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .print-button:hover, .download-button:hover {
+            background: #1e3d70;
+        }
+        
+        @media print {
+            .action-buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="action-buttons">
+        <button class="print-button" onclick="window.print()">Print as PDF</button>
+        <button class="download-button" onclick="downloadPDF()">Download PDF</button>
+        <button class="download-button" onclick="downloadHTML()">Download HTML</button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script>
+        function downloadHTML() {
+            const resumeContent = document.documentElement.outerHTML;
+            const blob = new Blob([resumeContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Kibrom_Abera_Resume.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            
+            // Hide the action buttons temporarily
+            const actionButtons = document.querySelector('.action-buttons');
+            actionButtons.style.display = 'none';
+            
+            try {
+                const canvas = await html2canvas(document.querySelector('.resume-container'), {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    width: 816, // 8.5 inches at 96 DPI
+                    height: 1056 // 11 inches at 96 DPI
+                });
+                
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 297; // A4 height in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+                
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                pdf.save('Kibrom_Abera_Resume.pdf');
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF. Please try using the Print as PDF option instead.');
+            } finally {
+                // Show the action buttons again
+                actionButtons.style.display = 'flex';
+            }
+        }
+    </script>
+    
+    <div class="resume-container">
+        <div class="header">
+            <div class="name">KIBROM ABERA</div>
+            <div class="contact-info">
+                213 Partridge Court, Pickerington, OH 43147<br>
+                +1-641-451-9888 | <a href="mailto:kibromaberaa@gmail.com">kibromaberaa@gmail.com</a> | 
+                <a href="https://www.linkedin.com/in/kibroma/">linkedin.com/in/kibroma/</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Professional Summary</div>
+            <div class="summary">
+                Senior Software Engineer with over 10 years of experience specializing in microservices architecture, database management, and RESTful technologies. Proven track record of integrating AI solutions, leading complex database migrations, and optimizing system performance while reducing technical debt. Demonstrates expertise in cloud computing, machine learning integration, and full-stack development with a commitment to driving innovation and delivering scalable solutions.
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Technical Skills</div>
+            <div class="skills-grid">
+                <div>
+                    <div class="skill-category">
+                        <div class="skill-category-title">Programming Languages</div>
+                        <div class="skill-list">Java, JavaScript, Python, C++, SQL, PL/SQL</div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="skill-category-title">Frameworks & Technologies</div>
+                        <div class="skill-list">Spring Framework, Spring Boot, Spring Cloud Config, Spring Data, Spring Security, Hibernate, JPA, Bootstrap, Angular, GraphQL</div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="skill-category-title">Web Services & APIs</div>
+                        <div class="skill-list">RESTful APIs, SOAP, Microservices, Swagger/OpenAPI, JMS</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-category">
+                        <div class="skill-category-title">Databases</div>
+                        <div class="skill-list">SQL Server, PostgreSQL, Oracle, MongoDB, DynamoDB, Cassandra, Redis</div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="skill-category-title">Cloud & DevOps</div>
+                        <div class="skill-list">AWS (SDK, S3, Kinesis Firehose), Google Cloud, Docker, Kubernetes, Jenkins, Maven, Gradle, Git</div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="skill-category-title">Tools & Monitoring</div>
+                        <div class="skill-list">IntelliJ, Visual Studio, POSTMAN, Grafana, Dynatrace, Elasticsearch, Kibana, Splunk, Jira</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Professional Experience</div>
+            
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="company-role">
+                        <div class="company">SageSure</div>
+                        <div class="role">Senior Software Engineer</div>
+                    </div>
+                    <div class="duration">07/2022 – Present</div>
+                </div>
+                <div class="achievements">
+                    <ul>
+                        <li>Spearheaded integration of AI voice agent for customer service operations, enhancing customer experience and operational efficiency</li>
+                        <li>Led implementation of machine learning models to predict customer request outcomes, improving service response times</li>
+                        <li>Designed, developed, and maintained multiple database systems ensuring high availability and performance</li>
+                        <li>Successfully migrated legacy MSSQL systems to Aurora PostgreSQL, reducing infrastructure costs and improving scalability</li>
+                        <li>Developed and maintained microservices architecture, improving system modularity and maintainability</li>
+                        <li>Conducted comprehensive code reviews and mentored development team members</li>
+                        <li>Implemented comprehensive monitoring solutions for application health and performance optimization</li>
+                    </ul>
+                </div>
+                <div class="tech-env">
+                    <strong>Technical Environment:</strong> AWS, Kubernetes, Docker, Spring Framework, Java, PostgreSQL, MS SQL, RESTful APIs, Grafana, Dynatrace, Elasticsearch, AI/ML, GitHub Copilot, Microservices
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="company-role">
+                        <div class="company">Collibra</div>
+                        <div class="role">Senior Software Engineer</div>
+                    </div>
+                    <div class="duration">06/2021 – 07/2022</div>
+                </div>
+                <div class="achievements">
+                    <ul>
+                        <li>Designed and developed scalable microservices for data governance platform</li>
+                        <li>Refactored legacy codebase improving code quality, performance, and maintainability</li>
+                        <li>Implemented GraphQL APIs for efficient data querying and manipulation</li>
+                        <li>Integrated internal and external microservices ensuring seamless data flow</li>
+                        <li>Utilized PostgreSQL and Liquibase for database management and version control</li>
+                    </ul>
+                </div>
+                <div class="tech-env">
+                    <strong>Technical Environment:</strong> Java 8-11, Spring Boot, GraphQL, PostgreSQL, Liquibase, AWS, GCP, Redis, Docker, Gradle, Jenkins
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="company-role">
+                        <div class="company">g2o LLC - Nationwide Insurance</div>
+                        <div class="role">Senior Software Engineer</div>
+                    </div>
+                    <div class="duration">2017 – 06/2021</div>
+                </div>
+                <div class="achievements">
+                    <ul>
+                        <li>Architected and developed microservices using swagger-driven bottom-up approach</li>
+                        <li>Designed and implemented databases for platform and product management systems</li>
+                        <li>Developed reusable Angular 8 components enhancing frontend development efficiency</li>
+                        <li>Created comprehensive unit testing suites using Mockito and JUnit achieving high code coverage</li>
+                        <li>Implemented robust input validation for both frontend and backend systems</li>
+                        <li>Utilized Splunk for application monitoring, log analysis, and performance optimization</li>
+                    </ul>
+                </div>
+                <div class="tech-env">
+                    <strong>Technical Environment:</strong> Java 6-11, Angular 8, Spring Boot, Spring Cloud Config, AWS SDK, Kinesis Firehose, Oracle, DynamoDB, Redis, WebSphere, Docker, Maven
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="company-role">
+                        <div class="company">g2o LLC - FedEx Supply Chain</div>
+                        <div class="role">Software Engineer</div>
+                    </div>
+                    <div class="duration">2016 – 2017</div>
+                </div>
+                <div class="achievements">
+                    <ul>
+                        <li>Developed comprehensive web services for products, orders, billing, and inventory management</li>
+                        <li>Designed and implemented database schemas for multiple business domains</li>
+                        <li>Refactored existing web services to follow consistent API standards and best practices</li>
+                        <li>Implemented security vulnerability scanning for service protection</li>
+                        <li>Optimized server performance through input validation using Spring Validation</li>
+                    </ul>
+                </div>
+                <div class="tech-env">
+                    <strong>Technical Environment:</strong> Java 7, J2EE, Spring Data, REST/SOAP, JPA, Oracle 12c, WebSphere 8.0, Eclipse, Maven
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="company-role">
+                        <div class="company">Fraunhofer FOKUS</div>
+                        <div class="role">Software Developer</div>
+                    </div>
+                    <div class="duration">2015 – 2016</div>
+                </div>
+                <div class="achievements">
+                    <ul>
+                        <li>Conducted R&D for 5G networking technologies on Open5GCore platform</li>
+                        <li>Implemented GTP load balancing mechanism across OpenFlow switches</li>
+                        <li>Developed solutions using Java and C integrated with existing framework</li>
+                        <li>Worked extensively with OSI networking layers and TCP/IP protocols</li>
+                    </ul>
+                </div>
+                <div class="tech-env">
+                    <strong>Technical Environment:</strong> Java 7, J2EE, Hibernate, Spring, C, MySQL, TCP/IP, Linux, OpenFlow
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="company-role">
+                        <div class="company">Custor Computing</div>
+                        <div class="role">Software Developer</div>
+                    </div>
+                    <div class="duration">2012 – 2013</div>
+                </div>
+                <div class="achievements">
+                    <ul>
+                        <li>Participated in full software development lifecycle across diverse projects</li>
+                        <li>Developed enterprise-level information management systems using Spring MVC</li>
+                        <li>Implemented security authentication and authorization using Spring Security</li>
+                        <li>Gathered requirements and delivered complete web application solutions</li>
+                    </ul>
+                </div>
+                <div class="tech-env">
+                    <strong>Technical Environment:</strong> Java 6, J2EE, Spring MVC, Hibernate, Spring Security, AngularJS, Bootstrap, SQL Server
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <div class="company-role">
+                        <div class="company">Defense Engineering College</div>
+                        <div class="role">Software Developer</div>
+                    </div>
+                    <div class="duration">2010 – 2012</div>
+                </div>
+                <div class="achievements">
+                    <ul>
+                        <li>Developed automation systems for material monitoring and inventory management</li>
+                        <li>Created desktop applications for tracking material availability and expiration dates</li>
+                        <li>Contributed to R&D activities and provided technical guidance to students</li>
+                        <li>Implemented comprehensive testing strategies using JUnit</li>
+                    </ul>
+                </div>
+                <div class="tech-env">
+                    <strong>Technical Environment:</strong> Java 6, J2EE, SQL Server 2008, NetBeans, JavaScript, Bootstrap
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Education</div>
+            <div class="education-item">
+                <div class="degree">Master of Science in Computer Science</div>
+                <div class="institution">Maharishi International University</div>
+                <div class="year">2018</div>
+                <div style="clear: both;"></div>
+            </div>
+            <div class="education-item">
+                <div class="degree">Bachelor of Science in Information Technology</div>
+                <div class="institution">Mekelle Institute of Technology</div>
+                <div class="year">2010</div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
